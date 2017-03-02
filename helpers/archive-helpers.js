@@ -29,15 +29,14 @@ exports.initialize = function(pathsObj) {
 
 
 
-var readListOfUrls = function(callback) {
+exports.readListOfUrls = function(callback) {
   var d;
   fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
     if (err) {
       throw err;
     }
-    //callbacks!
+    callback(data);
   });
-  return d;
 };
 
 exports.isUrlInList = function(url, callback) {
@@ -45,8 +44,8 @@ exports.isUrlInList = function(url, callback) {
     if (err) {
       throw err;
     }
+    callback(data);
   });
-  return 5;
 };
 
 exports.addUrlToList = function(url, callback) {
@@ -82,7 +81,7 @@ exports.downloadUrls = function(urls) {
   return urls;
 };
 
-console.log(readListOfUrls);
+//console.log(readListOfUrls);
 
 // console.log(5);
 // console.log(exports.readListOfUrls());
