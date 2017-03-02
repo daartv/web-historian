@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var http = require('http');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -25,17 +26,71 @@ exports.initialize = function(pathsObj) {
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(callback) {
+
+
+
+var readListOfUrls = function(callback) {
+  var d;
+  fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
+    if (err) {
+      throw err;
+    }
+    //callbacks!
+  });
+  return d;
 };
 
 exports.isUrlInList = function(url, callback) {
+  fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
+    if (err) {
+      throw err;
+    }
+  });
+  return 5;
 };
 
 exports.addUrlToList = function(url, callback) {
+  fs.appendFile('./web/archives/sites.txt', 'url', function (err) {
+    if (err) {
+      throw err;
+    } else {
+      return;
+    }
+  });
 };
+
 
 exports.isUrlArchived = function(url, callback) {
+  var fileName = './web/archives/sites.txt' + url;
+  fs.exists(fileName, function (exists) {
+    return exists;
+
+  });
 };
 
+
 exports.downloadUrls = function(urls) {
+  var urls;
+  fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
+    if (err) {
+      throw err;
+    }
+    var urlsArray = [];
+    urls = data.toString().split('\n');
+
+  });
+  return urls;
 };
+
+console.log(readListOfUrls);
+
+// console.log(5);
+// console.log(exports.readListOfUrls());
+// console.log(exports.isUrlInList('amazon.com'));
+// console.log(exports.addUrlToList('fred.com'));
+// console.log(exports.isUrlInList('fred.com'));
+// console.log(exports.isUrlArchived('amazon.com'));
+// console.log(exports.downloadUrls());
+
+
+
