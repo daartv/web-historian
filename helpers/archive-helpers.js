@@ -77,16 +77,38 @@ exports.isUrlArchived = function(url, callback) {
 
 
 exports.downloadUrls = function(urls) {
-  var urls;
-  fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
-    if (err) {
-      throw err;
-    }
-    var urlsArray = [];
-    urls = data.toString().split('\n');
 
+  _.each(urls, function(url) {
+    if (exports.isUrlArchived(url, callback)) {
+
+    } else {
+      fs.readFile(url, 'utf8', function (err, data) {
+        var newDir = exports.paths.archivedSites + '/' + url;
+        fs.mkdir(newDir);
+        fs.writeFile(newDir, data, function(err) {
+          if (err) {
+            return console.log('hey err writing homeboy!');
+          }
+        });
+      });
+    }
   });
-  return urls;
+
+  // fs.readdir(exports.paths.archivedSites, function (err, data) {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+
+  // });
+  // fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
+  //   if (err) {
+  //     throw err;
+  //   }
+  //   var urlsArray = [];
+  //   urls = data.toString().split('\n');
+
+  // });
+  // return urls;
 };
 
 // exports.readListOfUrls();
