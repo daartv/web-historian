@@ -34,18 +34,23 @@ exports.readListOfUrls = function(callback) {
     if (err) {
       throw err;
     }
-    console.log('-----------------------', callback(data.split('\n')));
-    return data.split('\n');
+    //console.log('-----------------------', callback(data.split('\n')));
+    return callback(data.split('\n'));
   });
 };
 
 exports.isUrlInList = function(url, callback) {
-  fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
+  fs.readFile(exports.paths.list, 'utf8', function (err, data) {
     if (err) {
       throw err;
     }
-    callback(data);
+    console.log('this is url: ', url, 'this is data:', data.split('\n'));
+    var dataArr = data.split('\n');
+    console.log(_.contains(dataArr, url));
+    return callback(_.contains(dataArr, url));
+
   });
+
 };
 
 exports.addUrlToList = function(url, callback) {
