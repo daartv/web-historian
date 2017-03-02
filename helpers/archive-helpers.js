@@ -66,10 +66,7 @@ exports.addUrlToList = function(url, callback) {
 exports.isUrlArchived = function(url, callback) {
   fs.readdir(exports.paths.archivedSites, function (err, data) {
     if (err) {
-      console.log(err);
     }
-    console.log('ARCHIVED SITES:  ', exports.paths.archivedSites);
-    console.log('this is data', data);
     return callback(_.contains(data, url));
 
   });
@@ -79,19 +76,23 @@ exports.isUrlArchived = function(url, callback) {
 exports.downloadUrls = function(urls) {
 
   _.each(urls, function(url) {
-    if (exports.isUrlArchived(url, callback)) {
+    var newDir = exports.paths.archivedSites + '/' + url;
 
-    } else {
-      fs.readFile(url, 'utf8', function (err, data) {
-        var newDir = exports.paths.archivedSites + '/' + url;
-        fs.mkdir(newDir);
-        fs.writeFile(newDir, data, function(err) {
-          if (err) {
-            return console.log('hey err writing homeboy!');
-          }
-        });
-      });
-    }
+
+
+
+    // } else {
+    //   fs.readFile(url, 'utf8', function (err, data) {
+    //     var newDir = exports.paths.archivedSites + '/' + url;
+    //     fs.mkdir(newDir);
+    //     console.log(data);
+    //     fs.writeFile(newDir, data, function(err) {
+    //       if (err) {
+    //         return console.log('hey err writing homeboy!');
+    //       }
+    //     });
+    //   });
+
   });
 
   // fs.readdir(exports.paths.archivedSites, function (err, data) {
