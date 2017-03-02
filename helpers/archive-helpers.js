@@ -54,12 +54,11 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.appendFile('./web/archives/sites.txt', 'url', function (err) {
+  fs.appendFile(exports.paths.list, url, function (err) {
     if (err) {
       throw err;
-    } else {
-      return;
     }
+    callback(url);
   });
 };
 
