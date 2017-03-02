@@ -30,12 +30,12 @@ exports.initialize = function(pathsObj) {
 
 
 exports.readListOfUrls = function(callback) {
-  var d;
-  fs.readFile('./web/archives/sites.txt', 'utf8', function (err, data) {
+  fs.readFile(exports.paths.list, 'utf8', function (err, data) {
     if (err) {
       throw err;
     }
-    callback(data);
+    console.log('-----------------------', callback(data.split('\n')));
+    return data.split('\n');
   });
 };
 
@@ -81,9 +81,10 @@ exports.downloadUrls = function(urls) {
   return urls;
 };
 
-//console.log(readListOfUrls);
+// exports.readListOfUrls();
+// console.log(ourData);
 
-// console.log(5);
+console.log(5);
 // console.log(exports.readListOfUrls());
 // console.log(exports.isUrlInList('amazon.com'));
 // console.log(exports.addUrlToList('fred.com'));
