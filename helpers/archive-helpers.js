@@ -64,9 +64,13 @@ exports.addUrlToList = function(url, callback) {
 
 
 exports.isUrlArchived = function(url, callback) {
-  var fileName = './web/archives/sites.txt' + url;
-  fs.exists(fileName, function (exists) {
-    return exists;
+  fs.readdir(exports.paths.archivedSites, function (err, data) {
+    if (err) {
+      console.log(err);
+    }
+    console.log('ARCHIVED SITES:  ', exports.paths.archivedSites);
+    console.log('this is data', data);
+    return callback(_.contains(data, url));
 
   });
 };
