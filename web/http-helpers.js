@@ -11,11 +11,37 @@ exports.headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  // Write some code here that helps serve up your static files!
-  // (Static files are things like html (yours or archived from others...),
-  // css, or anything that doesn't change often.)
+
+
+
+//1. check in public folder ...
+  fs.readFile(archive.paths.siteAssets + asset, encoding, function(err, data) {
+    if (err) {
+
+    //2. Site doesn't exist in the public folder
+
+      fs.readFile( archive.paths.archivedSites + asset, encoding, function(err, data) {
+        if (err) {
+          callback ? callback() : exports.send404(res);
+        } else {
+          //file exists, serve it
+          exports.sendRequest(res, data);
+        }
+      });
+    } else {
+      // file exists, serve it
+      exports.sendResponse(res, data);
+    }
+  });
+
+
+
 };
 
-
+//NEED:
+exports.sendRedirect = function (response, location, status) {};
+exports.collectData = function (request, calback) {};
+exports.sendResponse = function (response, data, status) {};
+exports.send404 = function (response) {};
 
 // As you progress, keep thinking about what helper functions you can put here!
