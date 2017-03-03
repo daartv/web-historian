@@ -41,17 +41,12 @@ exports.readListOfUrls = function(callback) {
 };
 
 exports.isUrlInList = function(url, callback) {
-  fs.readFile(exports.paths.list, 'utf8', function (err, data) {
-    if (err) {
-      throw err;
-    }
-    console.log('this is url: ', url, 'this is data:', data.split('\n'));
-    var dataArr = data.split('\n');
-    console.log(_.contains(dataArr, url));
-    callback(_.contains(dataArr, url));
-
+  exports.readListOfUrls(function(data) {
+    var exists = _.any(data, function(site, i) {
+      return site.match(url);
+    });
+    callback(exists);
   });
-
 };
 
 exports.addUrlToList = function(url, callback) {
