@@ -61,7 +61,6 @@ exports.addUrlToList = function(url, callback) {
 
 exports.isUrlArchived = function(url, callback) {
   var sitePath = path.join(exports.paths.archivedSites, url);
-
   fs.exists(sitePath, function(exists) {
     callback(exists);
   });
@@ -81,6 +80,7 @@ exports.downloadUrls = function(urls) {
     if (!url) {
       return;
     }
+
     // var newDir = fs.createWriteStream(exports.paths.archivedSites + '/' + url);
     request('http://' + url).pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + url));
     //leaving _.each blank passes 'download all pending Urls' !>!?!?!?
