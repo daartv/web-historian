@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 var http = require('http');
+var request = require('request');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -35,7 +36,7 @@ exports.readListOfUrls = function(callback) {
       throw err;
     }
     //console.log('-----------------------', callback(data.split('\n')));
-    return callback(data.split('\n'));
+    callback(data.split('\n'));
   });
 };
 
@@ -47,37 +48,56 @@ exports.isUrlInList = function(url, callback) {
     console.log('this is url: ', url, 'this is data:', data.split('\n'));
     var dataArr = data.split('\n');
     console.log(_.contains(dataArr, url));
-    return callback(_.contains(dataArr, url));
+    callback(_.contains(dataArr, url));
 
   });
 
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.appendFile(exports.paths.list, url, function (err) {
+  fs.appendFile(exports.paths.list, url + '\n', function (err) {
     if (err) {
       throw err;
     }
-    callback(url);
+    callback();
   });
 };
 
 
 exports.isUrlArchived = function(url, callback) {
-  fs.readdir(exports.paths.archivedSites, function (err, data) {
-    if (err) {
-    }
-    return callback(_.contains(data, url));
+  var sitePath = path.join(exports.paths.archivedSites, url);
 
+  fs.exists(sitePath, function(exists) {
+    callback(exists);
   });
+
+  // fs.readdir(exports.paths.archivedSites, function (err, data) {
+  //   if (err) {
+  //   }
+  //   return callback(_.contains(data, url));
+
+  // });
 };
 
 
 exports.downloadUrls = function(urls) {
 
   _.each(urls, function(url) {
-    var newDir = exports.paths.archivedSites + '/' + url;
+    if (!url) {
+      return;
+    }
+    // var newDir = fs.createWriteStream(exports.paths.archivedSites + '/' + url);
+    request('http://' + url).pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + url));
+    //leaving _.each blank passes 'download all pending Urls' !>!?!?!?
 
+    // fs.readFile(url, 'utf8', function (err, data) {
+    //   if (err) {
+    //     throw err;
+    //   }
+    //   var newDir = exports.paths.archivedSites + '/' + url;
+    //   console.log(newDir);   
+ 
+    // });   
 
 
 
